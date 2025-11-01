@@ -1,40 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+import React from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Browse from "./pages/Browse";
+import BookDetails from "./pages/BookDetails";
+import AddBook from "./pages/AddBook";
+import NotFound from "./pages/NotFound";
+
+function AppContent() {
+  const location = useLocation();
+
+  // Hide Header & Footer for 404 route
+  const isNotFoundPage =
+    location.pathname === "/404" ||
+    (!["/", "/books", "/book", "/add"].some((p) =>
+      location.pathname.startsWith(p)
+    ) &&
+      location.pathname !== "/");
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
-      <h1 className="text-5xl font-bold text-blue-600 dark:text-yellow-300">
-        Tailwind Works 🎉
-      </h1>
+    <div className="min-h-screen flex flex-col bg-white dark:bg-[#0b0706] transition-colors duration-300">
+      {!isNotFoundPage && <Header />}
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/books" element={<Browse />} />
+          <Route path="/books/:category" element={<Browse />} />
+          <Route path="/book/:id" element={<BookDetails />} />
+          <Route path="/add" element={<AddBook />} />
+
+          {/* 404 Page */}
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+      {!isNotFoundPage && <Footer />}
     </div>
-    </>
-  )
+  );
 }
 
-export default App
+export default function App() {
+  return <AppContent />;
+}
