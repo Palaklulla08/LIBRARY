@@ -31,7 +31,7 @@ export default function BookDetails() {
                   {book.category}
                 </span>
               </div>
-              <h1 className="text-4xl font-display text-white mb-2">
+              <h1 className="text-4xl font-bold text-[#7A071A] dark:text-[#ffccd5] mb-2 ">
                 {book.title}
               </h1>
               <p className="text-[#7A071A] dark:text-[#FEFCE8]  mb-4">by {book.author}</p>
