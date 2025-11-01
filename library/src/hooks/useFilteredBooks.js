@@ -1,0 +1,2 @@
+import { useMemo } from 'react'
+export default function useFilteredBooks(books,{q='',category=''}){return useMemo(()=>{const s=q.trim().toLowerCase();return books.filter(b=>{if(category && category!=='all' && b.category.toLowerCase()!==category.toLowerCase()) return false; if(!s) return true; return b.title.toLowerCase().includes(s) || b.author.toLowerCase().includes(s) })},[books,q,category])}
